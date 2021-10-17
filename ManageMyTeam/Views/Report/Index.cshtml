@@ -1,0 +1,36 @@
+﻿@model ManageMyTeam.Models.ReportModel
+@{
+    ViewData["Title"] = "Report";
+}
+
+<h1>Report</h1>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Report">
+            <div class="form-group">
+                <label>Mitarbeiter</label>
+                <select asp-for="EmployeeId" class="form-control" asp-items="ViewBag.EmployeeId"></select>
+            </div>
+            <div class="form-group">
+                <label>Start Woche</label>
+                <input asp-for="StartWeek" class="form-control" type="week" />
+            </div>
+            <div class="form-group">
+                <label>End Woche</label>
+                <input asp-for="EndWeek" class="form-control" type="week" />
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Report" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

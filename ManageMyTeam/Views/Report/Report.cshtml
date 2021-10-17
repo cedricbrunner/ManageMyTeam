@@ -1,0 +1,56 @@
+﻿
+@model ManageMyTeam.Models.ReportResult
+
+@{
+    var jsonItems = Newtonsoft.Json.JsonConvert.SerializeObject(Model.WeekLoadEmployee);
+}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
+<canvas id="myChart1"></canvas>
+
+
+
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            var allItem =  @Html.Raw(jsonItems);
+            console.log(allItem);
+            var labels = [];
+            var data = [];
+            for (var qi = 0; qi < allItem.length; qi++) {
+                labels.push(allItem[qi].CurrentWeek);
+                data.push(allItem[qi].Workload)
+                
+            }
+            var x = new Chart(document.getElementById("myChart1"), {
+                type: 'line',
+                data: {
+                    datasets: [{
+                        label: 'First dataset',
+                        data: data
+                    }],
+                    labels: labels
+                },
+                options: {
+                    scales: {
+                        y: {
+                            suggestedMin: 0,
+                            suggestedMax: 100
+                        }
+                    }
+                }
+
+
+            });
+
+
+    });
+    </script>
+}
+/*
+*/

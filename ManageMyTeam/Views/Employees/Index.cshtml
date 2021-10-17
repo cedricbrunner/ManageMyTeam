@@ -1,0 +1,59 @@
+﻿@model IEnumerable<ManageMyTeam.Models.Employee>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Mitarbeiter / Mitarbeiterin erfassen</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Name Vorname
+            </th>
+            <th>
+                Work ID
+            </th>
+            <th>
+                Pensum
+            </th>
+            <th>
+                Funktion
+            </th>
+            <th>
+                Abteilung
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.EmployeeName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.WorkID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.WorkLoad)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Function.FunctionTyp)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Department.DepartmentName)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.EmployeeId">Bearbeiten</a> |
+                <a asp-action="Details" asp-route-id="@item.EmployeeId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.EmployeeId">Löschen</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

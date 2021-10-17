@@ -1,0 +1,53 @@
+﻿@model IEnumerable<ManageMyTeam.Models.Absence>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Neue Absenz erfassen</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Grund
+            </th>
+            <th>
+                Von
+            </th>
+            <th>
+                Bis
+            </th>
+            <th>
+                Mitarbeiter
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.AbcenceName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AbcenceStart)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AbcenceEnd)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EmployeeName.EmployeeName)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.AbsenceId">Bearbeiten</a> |
+                <a asp-action="Details" asp-route-id="@item.AbsenceId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.AbsenceId">Löschen</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

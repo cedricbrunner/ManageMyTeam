@@ -1,0 +1,56 @@
+﻿@model IEnumerable<ManageMyTeam.Models.RequirementHour>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Anforderung erfassen</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Anforderung Stunden pro Woche
+            </th>
+            <th>
+                Kalenderwoche
+            </th>
+            <th>
+                Projekt
+            </th>
+            <th>
+                Mitarbeiter
+            </th>
+            <th>
+                Abteilung
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.RequirementHourAmount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RequirementHourDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Project.ProjectTitle)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Department.DepartmentName)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.RequirementHourId">Bearbeiten</a> |
+                <a asp-action="Details" asp-route-id="@item.RequirementHourId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.RequirementHourId">Löschen</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

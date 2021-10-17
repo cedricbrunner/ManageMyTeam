@@ -1,0 +1,46 @@
+﻿@model ManageMyTeam.Models.SchedulingHour
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Neue Einplanung</h1>
+
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label>Stunden pro Woche</label>
+                <input asp-for="SchedulingHourAmount" class="form-control" />
+                <span asp-validation-for="SchedulingHourAmount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <<label>Kalenderwoche</label>
+                <input asp-for="SchedulingHourDate" class="form-control" type="week" />
+                <span asp-validation-for="SchedulingHourDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label>Projekt</label>
+                <select asp-for="ProjectId" class ="form-control" asp-items="ViewBag.ProjectId"></select>
+            </div>
+            <div class="form-group">
+                <label>Mitarbeiter</label>
+                <select asp-for="EmployeeId" class ="form-control" asp-items="ViewBag.EmployeeId"></select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Anlegen" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Zurück zur Übersicht</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
