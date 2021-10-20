@@ -25,11 +25,5 @@ namespace ManageMyTeam.Models
 
 
 
-
-
-
-
-
-
     }
 }
