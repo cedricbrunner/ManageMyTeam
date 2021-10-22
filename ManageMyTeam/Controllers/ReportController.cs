@@ -3,6 +3,7 @@ using ManageMyTeam.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -36,49 +37,97 @@ namespace ManageMyTeam.Controllers
         //public async Task<IActionResult> Report([Bind("EmployeeId,StartWeek,EndWeek")] ReportModel reportModel)
         public IActionResult Report([Bind("EmployeeId,StartWeek,EndWeek")] ReportModel reportModel)
         {
+
             /*
-             * Create Report Model
              * 
-             * neue Klasse
+             *      ABSENCE
+             *          -
+             *          KW
+             *          -
+             *          
+             *         
+             *      -------------------------
+             *   KW
+             *    -
              *      
-             *      x-achse: Kalenderwochen
-             *      
-             *      pro Kalenderwoche 
-             *     
-             *      List<KalenderwocheReportEmployye>
-             *      
-             *    KalenderwocheReportEmployye
-             *       int auslaustung
-             *       
-             * 
              * */
-            /*var baseLoads = _context.Baseloads.Select(e => e.EmployeeId == reportModel.EmployeeId);
-            var publicHolidays = _context.PublicHolidays;
-            var absences = _context.Absences.Select(e => ;
-            var employee = _context.*/
-
-
             // n - wochen
             ReportResult reportResult = new ReportResult()
             {
                 WeekLoadEmployee = new List<ReportResultWeekLoadEmployee>()
             };
-            var totalWeeks  = (reportModel.EndWeek - reportModel.StartWeek).Days > 0 ? (reportModel.EndWeek - reportModel.StartWeek).Days / 7 : 1;
-            //var currentWeek = GetIso8601WeekOfYear(reportModel.StartWeek);
-            var currentWeek = 10;
-            //for (int qi = 0; qi < totalWeeks; qi++)
-            for (int qi = 0; qi < 10; qi++)
+            int startWeekIndex = GetIso8601WeekOfYear(reportModel.StartWeek);
+            int endWeekIndex = GetIso8601WeekOfYear(reportModel.EndWeek);
+
+            var employee =  _context.Employees.Include(e => e.Department).Include(e => e.Function).FirstOrDefaultAsync(m => m.EmployeeId == reportModel.EmployeeId).Result;
+
+            if(employee == null)
             {
+                // error handling
+                return NotFound();
+            }
+
+            var absencesOfEmployeeInCurrentWeek = _context.Absences.Where(absence => absence.EmployeeId == reportModel.EmployeeId);
+            var schedulingOfEmployeeInCurrentWeek = _context.SchedulingHours.Where(SchedulingHour => SchedulingHour.EmployeeId == reportModel.EmployeeId);
+
+
+
+            for (int currentWeekIndex = startWeekIndex; currentWeekIndex <= endWeekIndex; currentWeekIndex++)
+            {
+                // We are in the context of a calendar week
+
+                int availableHours = (employee.WorkLoad * 40) / 100;
+
+                /*var absencesOfEmployeeInCurrentWeek = _context.Absences
+                    .Where(absence => absence.EmployeeId == reportModel.EmployeeId && 
+                    GetIso8601WeekOfYear(absence.AbcenceStart) <= currentWeekIndex && 
+                    GetIso8601WeekOfYear(absence.AbcenceEnd) >= currentWeekIndex).ToList();
+                */
+
+
+
+                int countDayWithAbsences = 0;
+                foreach (Absence absence in absencesOfEmployeeInCurrentWeek)
+                {
+                    foreach (DateTime day in EachDay(absence.AbcenceStart, absence.AbcenceEnd))
+                    {
+                        if(GetIso8601WeekOfYear(day) == currentWeekIndex)
+                        {
+                            countDayWithAbsences++;
+                        }
+                    }
+                }
+                
+                if(countDayWithAbsences > 5)
+                {
+                    countDayWithAbsences = 5;
+                }
+
+                var hoursOfAbsences = countDayWithAbsences * 8;
+                availableHours = availableHours - hoursOfAbsences;
+                    
+                int targetHours = 10;
+
+
                 ReportResultWeekLoadEmployee currentReportWeek = new ReportResultWeekLoadEmployee()
                 {
-                    CurrentWeek = currentWeek.ToString(),
-                    Workload = 80
+
+                    CurrentWeek = "KW " + currentWeekIndex,
+                    AvailableHours = availableHours,
+                    TargetHours = targetHours
                 };
 
                 reportResult.WeekLoadEmployee.Add(currentReportWeek);
             }
             return View(reportResult);
         }
+
+        public IEnumerable<DateTime> EachDay(DateTime from, DateTime thru)
+        {
+            for (var day = from.Date; day.Date <= thru.Date; day = day.AddDays(1))
+                yield return day;
+        }
+
 
         // This presumes that weeks start with Monday.
         // Week 1 is the 1st week of the year with a Thursday in it.

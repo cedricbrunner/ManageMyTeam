@@ -21,27 +21,39 @@
             var allItem =  @Html.Raw(jsonItems);
             console.log(allItem);
             var labels = [];
-            var data = [];
+            var dataSetAvailableHours = [];
+            var dataSetTargetHours = [];
             for (var qi = 0; qi < allItem.length; qi++) {
                 labels.push(allItem[qi].CurrentWeek);
-                data.push(allItem[qi].Workload)
-                
+                dataSetAvailableHours.push(allItem[qi].AvailableHours)
+                dataSetTargetHours.push(allItem[qi].TargetHours)
             }
             var x = new Chart(document.getElementById("myChart1"), {
                 type: 'line',
                 data: {
-                    datasets: [{
-                        label: 'First dataset',
-                        data: data
-                    }],
+                    datasets: [
+                        {
+                            label: 'zu leistende Stunden (Abzgl. Ferien, anhand Pensum)',
+                            data: dataSetAvailableHours
+                        },
+                        {
+                            label: 'Soll Stunden',
+                            data: dataSetTargetHours
+                        }
+                    ],
                     labels: labels
                 },
                 options: {
                     scales: {
-                        y: {
-                            suggestedMin: 0,
-                            suggestedMax: 100
-                        }
+                        yAxes: [{
+                            display: true,
+                            ticks: {
+                                beginAtZero: true,
+                                stepSize: 10,
+                                max: 60,
+                                min: 0
+                            }
+                        }]
                     }
                 }
 

@@ -20,6 +20,14 @@ namespace ManageMyTeam
 
             host.Run();
         }
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
+    Host.CreateDefaultBuilder(args)
+        .ConfigureWebHostDefaults(webBuilder =>
+        {
+            webBuilder.UseStartup<Startup>();
+        });
+
+
 
         private static void CreateDbIfNotExists(IHost host)
         {
@@ -29,7 +37,7 @@ namespace ManageMyTeam
                 try
                 {
                     var context = services.GetRequiredService<ApplicationDbContext>();
-                    DbInitializer.Initialize(context);
+                    DatabaseInitializer.Initialize(context);
                 }
                 catch (Exception ex)
                 {
@@ -37,13 +45,12 @@ namespace ManageMyTeam
                     logger.LogError(ex, "An error occurred creating the DB.");
                 }
             }
-        }
 
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                });
+
+
+
+
+
+        }
     }
 }
