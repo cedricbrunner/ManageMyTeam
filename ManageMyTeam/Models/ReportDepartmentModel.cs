@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace ManageMyTeam.Models
 {
-    public class ReportDepartmentModel
+    public class ReportModel
     {
-        public int DepartmentId { get; set; }
+        public int EmployeeId { get; set; }
 
         [BindProperty, DataType("week"), ModelBinder(BinderType = typeof(WeekOfYearAwareDateTimeModelBinder))]
         public DateTime StartWeek { get; set; }

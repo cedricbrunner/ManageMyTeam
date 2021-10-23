@@ -28,7 +28,6 @@ namespace ManageMyTeam.Controllers
 
             return View();
         }
-
         // POST: RequirementHours/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -37,21 +36,6 @@ namespace ManageMyTeam.Controllers
         //public async Task<IActionResult> Report([Bind("EmployeeId,StartWeek,EndWeek")] ReportModel reportModel)
         public IActionResult Report([Bind("EmployeeId,StartWeek,EndWeek")] ReportModel reportModel)
         {
-
-            /*
-             * 
-             *      ABSENCE
-             *          -
-             *          KW
-             *          -
-             *          
-             *         
-             *      -------------------------
-             *   KW
-             *    -
-             *      
-             * */
-            // n - wochen
             ReportResult reportResult = new ReportResult()
             {
                 WeekLoadEmployee = new List<ReportResultWeekLoadEmployee>()
@@ -60,8 +44,11 @@ namespace ManageMyTeam.Controllers
             int endWeekIndex = GetIso8601WeekOfYear(reportModel.EndWeek);
 
             var employee =  _context.Employees.Include(e => e.Department).Include(e => e.Function).FirstOrDefaultAsync(m => m.EmployeeId == reportModel.EmployeeId).Result;
+            var schedulingHour = _context.SchedulingHours.Include(s => s.Employee).Include(s => s.Project).FirstOrDefaultAsync(m => m.EmployeeId == reportModel.EmployeeId).Result;
+            var baseLoad = _context.Baseloads.Include(b => b.Employee).FirstOrDefaultAsync(m => m.EmployeeId == reportModel.EmployeeId).Result;
 
-            if(employee == null)
+
+            if (employee == null)
             {
                 // error handling
                 return NotFound();
@@ -69,21 +56,28 @@ namespace ManageMyTeam.Controllers
 
             var absencesOfEmployeeInCurrentWeek = _context.Absences.Where(absence => absence.EmployeeId == reportModel.EmployeeId);
             var schedulingOfEmployeeInCurrentWeek = _context.SchedulingHours.Where(SchedulingHour => SchedulingHour.EmployeeId == reportModel.EmployeeId);
-
-
+            var baseloadOfEmployee = _context.Baseloads.Where(BaseLoad => BaseLoad.EmployeeId == reportModel.EmployeeId);
+            
 
             for (int currentWeekIndex = startWeekIndex; currentWeekIndex <= endWeekIndex; currentWeekIndex++)
             {
                 // We are in the context of a calendar week
-
                 int availableHours = (employee.WorkLoad * 40) / 100;
+                int targetHours = baseLoad.BaseLoadAmount;
 
-                /*var absencesOfEmployeeInCurrentWeek = _context.Absences
-                    .Where(absence => absence.EmployeeId == reportModel.EmployeeId && 
-                    GetIso8601WeekOfYear(absence.AbcenceStart) <= currentWeekIndex && 
-                    GetIso8601WeekOfYear(absence.AbcenceEnd) >= currentWeekIndex).ToList();
-                */
+                foreach (BaseLoad BaseLoad in baseloadOfEmployee)
+                {
+                }
 
+                int WeekswithScheduling = 0;
+                foreach (SchedulingHour SchedulingHour in schedulingOfEmployeeInCurrentWeek)
+                {
+                    //foreach (int ammount in (SchedulingHour.Sch)
+
+                    //foreach (DateTime day in EachDay(schedulingHour.AbcenceStart, schedulingHour.AbcenceEnd))
+
+                    WeekswithScheduling++;
+                }
 
 
                 int countDayWithAbsences = 0;
@@ -97,17 +91,17 @@ namespace ManageMyTeam.Controllers
                         }
                     }
                 }
-                
-                if(countDayWithAbsences > 5)
+
+                if (countDayWithAbsences > 5)
                 {
                     countDayWithAbsences = 5;
                 }
 
                 var hoursOfAbsences = countDayWithAbsences * 8;
                 availableHours = availableHours - hoursOfAbsences;
-                    
-                int targetHours = 10;
 
+                var hoursOfScheduling = WeekswithScheduling;
+                targetHours = hoursOfScheduling + targetHours;
 
                 ReportResultWeekLoadEmployee currentReportWeek = new ReportResultWeekLoadEmployee()
                 {
