@@ -29,16 +29,18 @@
                 dataSetTargetHours.push(allItem[qi].TargetHours)
             }
             var x = new Chart(document.getElementById("myChart1"), {
-                type: 'line',
+                type: 'bar',
                 data: {
                     datasets: [
                         {
                             label: 'zu leistende Stunden (Abzgl. Ferien, anhand Pensum)',
                             data: dataSetAvailableHours
+                            
                         },
                         {
                             label: 'Soll Stunden',
                             data: dataSetTargetHours
+                            
                         }
                     ],
                     labels: labels

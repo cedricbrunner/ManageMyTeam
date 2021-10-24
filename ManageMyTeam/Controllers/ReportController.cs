@@ -40,13 +40,17 @@ namespace ManageMyTeam.Controllers
             {
                 WeekLoadEmployee = new List<ReportResultWeekLoadEmployee>()
             };
+
             int startWeekIndex = GetIso8601WeekOfYear(reportModel.StartWeek);
             int endWeekIndex = GetIso8601WeekOfYear(reportModel.EndWeek);
 
             var employee =  _context.Employees.Include(e => e.Department).Include(e => e.Function).FirstOrDefaultAsync(m => m.EmployeeId == reportModel.EmployeeId).Result;
             var schedulingHour = _context.SchedulingHours.Include(s => s.Employee).Include(s => s.Project).FirstOrDefaultAsync(m => m.EmployeeId == reportModel.EmployeeId).Result;
             var baseLoad = _context.Baseloads.Include(b => b.Employee).FirstOrDefaultAsync(m => m.EmployeeId == reportModel.EmployeeId).Result;
+            var publicHoliday = _context.PublicHolidays.FirstOrDefaultAsync(m => m.PublicHolidayId == reportModel.PublicHolidayId);
+           //_context.PublicHolidays.Include(m => m.PublicHolidayId).FirstOrDefaultAsync(m => m.PublicHolidayId == reportModel.PublicHolidayId).Result;
 
+            
 
             if (employee == null)
             {
@@ -55,6 +59,7 @@ namespace ManageMyTeam.Controllers
             }
 
             var absencesOfEmployeeInCurrentWeek = _context.Absences.Where(absence => absence.EmployeeId == reportModel.EmployeeId);
+            var publicHolidaysInCurrentWeek = _context.PublicHolidays.Where(publicHoliday => publicHoliday.PublicHolidayId == reportModel.EmployeeId);            
             var schedulingOfEmployeeInCurrentWeek = _context.SchedulingHours.Where(SchedulingHour => SchedulingHour.EmployeeId == reportModel.EmployeeId);
             var baseloadOfEmployee = _context.Baseloads.Where(BaseLoad => BaseLoad.EmployeeId == reportModel.EmployeeId);
             
@@ -84,10 +89,23 @@ namespace ManageMyTeam.Controllers
                 foreach (Absence absence in absencesOfEmployeeInCurrentWeek)
                 {
                     foreach (DateTime day in EachDay(absence.AbcenceStart, absence.AbcenceEnd))
-                    {
-                        if(GetIso8601WeekOfYear(day) == currentWeekIndex)
+                    {                       
+                            if (GetIso8601WeekOfYear(day) == currentWeekIndex)
                         {
                             countDayWithAbsences++;
+                        }
+                    }
+                }
+
+                int countDayWithpublicHolidays = 0;               
+                foreach (PublicHoliday publicHolidays in publicHolidaysInCurrentWeek)
+                {
+                    //foreach (DateTime day in EachDay(publicHoliday.PublicHolidayDate, publicHoliday.PublicHolidayDate))
+                    {
+                        //if (GetIso8601WeekOfYear(day) == currentWeekIndex)
+                        {
+                            countDayWithpublicHolidays++;
+
                         }
                     }
                 }
@@ -97,7 +115,7 @@ namespace ManageMyTeam.Controllers
                     countDayWithAbsences = 5;
                 }
 
-                var hoursOfAbsences = countDayWithAbsences * 8;
+                var hoursOfAbsences = (countDayWithAbsences * 8) + (countDayWithpublicHolidays * 8);
                 availableHours = availableHours - hoursOfAbsences;
 
                 var hoursOfScheduling = WeekswithScheduling;

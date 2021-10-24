@@ -107,10 +107,10 @@ namespace ManageMyTeam.Data
 
         }
 
-        internal static void Initialize(IApplicationBuilder app)
-        {
-            throw new NotImplementedException();
-        }
+        //internal static void Initialize(IApplicationBuilder app)
+        //{
+          //  throw new NotImplementedException();
+        //}
     }
     
 }

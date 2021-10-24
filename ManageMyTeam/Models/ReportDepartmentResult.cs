@@ -5,9 +5,8 @@ using System.Threading.Tasks;
 
 namespace ManageMyTeam.Models
 {
-    public class ReportResult
+    public class ReporDepartmentResult
     {
-        public List<ReportResultWeekLoadEmployee> WeekLoadEmployee { get; set; }
-
+        public List<ReportResultWeekLoadDepartment> WeekLoadDepartment { get; set; }
     }
 }
