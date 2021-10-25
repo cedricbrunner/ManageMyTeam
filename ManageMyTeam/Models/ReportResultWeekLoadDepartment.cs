@@ -7,6 +7,8 @@ namespace ManageMyTeam.Models
 {
     public class ReportResultWeekLoadDepartment
     {
+        public int CurrentWeekAsInt { get; set; }
+
         public string CurrentWeek { get; set; }
         public int ScheduledHoursDepartment { get; set; }
         public int DemandHoursDepartment { get; set; }

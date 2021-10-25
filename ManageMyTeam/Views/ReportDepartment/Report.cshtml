@@ -1,8 +1,8 @@
 ﻿
-@model ManageMyTeam.Models.ReportResult
+@model ManageMyTeam.Models.ReporDepartmentResult
 
 @{
-    var jsonItems = Newtonsoft.Json.JsonConvert.SerializeObject(Model.WeekLoadEmployee);
+    var jsonItems = Newtonsoft.Json.JsonConvert.SerializeObject(Model.WeekLoadDepartment);
 }
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
 <canvas id="myChart1"></canvas>
@@ -14,34 +14,38 @@
     <a asp-action="Index">Back to List</a>
 </div>
 
-
 @section scripts{
     <script>
         $(document).ready(function () {
             var allItem =  @Html.Raw(jsonItems);
             console.log(allItem);
             var labels = [];
-            var dataSetAvailableHours = [];
-            var dataSetTargetHours = [];
+            var ScheduledHoursDepartment = [];
+            var DemandHoursDepartment = [];
+            var MaximumHoursDepartment = [];
             for (var qi = 0; qi < allItem.length; qi++) {
                 labels.push(allItem[qi].CurrentWeek);
-                dataSetAvailableHours.push(allItem[qi].AvailableHours)
-                dataSetTargetHours.push(allItem[qi].TargetHours)
+                ScheduledHoursDepartment.push(allItem[qi].ScheduledHoursDepartment)
+                MaximumHoursDepartment.push(allItem[qi].MaximumHoursDepartment)
+                DemandHoursDepartment.push(allItem[qi].DemandHoursDepartment)
             }
             var x = new Chart(document.getElementById("myChart1"), {
                 type: 'bar',
                 data: {
                     datasets: [
                         {
-                            label: 'zu leistende Stunden (Abzgl. Ferien, anhand Pensum)',
-                            data: dataSetAvailableHours
-                            
+                            label: 'ScheduledHoursDepartment',
+                            data: ScheduledHoursDepartment
+
                         },
                         {
-                            label: 'Soll Stunden',
-                            data: dataSetTargetHours
-                            
-                        }
+                            label: 'MaximumHoursDepartment',
+                            data: MaximumHoursDepartment
+                        },
+                        {
+                            label: 'DemandHoursDepartment',
+                            data: DemandHoursDepartment
+                        },
                     ],
                     labels: labels
                 },

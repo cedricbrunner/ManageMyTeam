@@ -7,6 +7,7 @@ namespace ManageMyTeam.Models
 {
     public class ReportResultWeekLoadEmployee
     {
+        public  int CurrentWeekAsInt { get; set; }
         public string CurrentWeek { get; set; }
         public int TargetHours { get; set; }
         public int AvailableHours { get; set; }

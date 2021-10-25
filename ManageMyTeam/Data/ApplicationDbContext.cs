@@ -23,8 +23,9 @@ namespace ManageMyTeam.Data
         public DbSet<RequirementHour> RequirementHours { get; set; }
         public DbSet<SchedulingHour> SchedulingHours { get; set; }
 
-       
-        
+
+
+
     }
 
     

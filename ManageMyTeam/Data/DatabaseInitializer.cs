@@ -16,7 +16,7 @@ namespace ManageMyTeam.Data
                 context.Database.EnsureCreated();
                 Department dep1 = new Department
                 {
-                    DepartmentId = 104,
+                   
                     DepartmentName = "Project Management"
                 };
 
@@ -27,13 +27,13 @@ namespace ManageMyTeam.Data
                     var departments = new Department[]
                     {
                         dep1,
-                        new Department {  DepartmentId = 100,
+                        new Department {  
                                             DepartmentName = "Execution System",},
-                        new Department {  DepartmentId = 101,
+                        new Department { 
                                             DepartmentName = "M2U" },
-                        new Department { DepartmentId = 102,
+                        new Department { 
                                             DepartmentName = "Marketing & Sales" },
-                        new Department {  DepartmentId = 103,
+                        new Department {  
                                             DepartmentName = "Finance & Administration" },
 
                 };
@@ -50,7 +50,7 @@ namespace ManageMyTeam.Data
                 context.Database.EnsureCreated();
                 Function func1 = new Function
                 {
-                    FunctionId = 1,
+                    
                     FunctionTyp = "Engineer"
                 };
 
@@ -59,11 +59,11 @@ namespace ManageMyTeam.Data
                 {
                     var functions = new Function[]
                     {
-                    new Function { FunctionId = 2,
+                    new Function { 
                         FunctionTyp = "Chef de cuisine" },
-                    new Function { FunctionId = 3,
+                    new Function { 
                         FunctionTyp = "Platform Owner" },
-                    new Function { FunctionId = 4,
+                    new Function { 
                         FunctionTyp = "Tester" },
                     };
                     foreach (Function function in functions)
@@ -81,7 +81,7 @@ namespace ManageMyTeam.Data
                     var employees = new Employee[]
                     {
                         new Employee {  EmployeeName = "Max",
-                                        EmployeeId = 10,
+                                        
                                         WorkID = 1000,
                                         WorkLoad = 80,
                                         Department = dep1,
