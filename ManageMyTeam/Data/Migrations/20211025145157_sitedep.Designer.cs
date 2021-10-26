@@ -4,18 +4,20 @@ using ManageMyTeam.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ManageMyTeam.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211025145157_sitedep")]
+    partial class sitedep
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.20")
+                .HasAnnotation("ProductVersion", "3.1.18")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -168,12 +170,7 @@ namespace ManageMyTeam.Data.Migrations
                     b.Property<string>("PublicHolidayTitle")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("SiteId")
-                        .HasColumnType("int");
-
                     b.HasKey("PublicHolidayId");
-
-                    b.HasIndex("SiteId");
 
                     b.ToTable("PublicHolidays");
                 });
@@ -485,15 +482,6 @@ namespace ManageMyTeam.Data.Migrations
                     b.HasOne("ManageMyTeam.Models.Function", "Function")
                         .WithMany()
                         .HasForeignKey("FunctionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("ManageMyTeam.Models.PublicHoliday", b =>
-                {
-                    b.HasOne("ManageMyTeam.Models.Site", "Site")
-                        .WithMany()
-                        .HasForeignKey("SiteId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

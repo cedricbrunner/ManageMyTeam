@@ -22,7 +22,9 @@ namespace ManageMyTeam.Controllers
         // GET: Departments
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Departments.ToListAsync());
+            var applicationDbContext = _context.Departments.Include(e => e.Site);
+            return View(await applicationDbContext.ToListAsync());
+
         }
 
         // GET: Departments/Details/5
@@ -34,6 +36,7 @@ namespace ManageMyTeam.Controllers
             }
 
             var department = await _context.Departments
+                .Include(e => e.Site)
                 .FirstOrDefaultAsync(m => m.DepartmentId == id);
             if (department == null)
             {
@@ -46,6 +49,7 @@ namespace ManageMyTeam.Controllers
         // GET: Departments/Create
         public IActionResult Create()
         {
+            ViewData["SiteId"] = new SelectList(_context.Sites, "SiteId", "SiteLocation");
             return View();
         }
 
@@ -54,7 +58,7 @@ namespace ManageMyTeam.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("DepartmentId,DepartmentName")] Department department)
+        public async Task<IActionResult> Create([Bind("DepartmentId,DepartmentName,SiteId")] Department department)
         {
             if (ModelState.IsValid)
             {
@@ -62,6 +66,7 @@ namespace ManageMyTeam.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["Site"] = new SelectList(_context.Sites, "SiteId", "", department.SiteId);
             return View(department);
         }
 
@@ -78,6 +83,7 @@ namespace ManageMyTeam.Controllers
             {
                 return NotFound();
             }
+            ViewData["SiteId"] = new SelectList(_context.Sites, "SiteId", "SiteLocation", department.SiteId);
             return View(department);
         }
 
@@ -86,7 +92,7 @@ namespace ManageMyTeam.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("DepartmentId,DepartmentName")] Department department)
+        public async Task<IActionResult> Edit(int id, [Bind("DepartmentId,DepartmentName,SiteId")] Department department)
         {
             if (id != department.DepartmentId)
             {
@@ -113,6 +119,7 @@ namespace ManageMyTeam.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["SiteId"] = new SelectList(_context.Sites, "SiteId", "SiteLocation", department.SiteId);
             return View(department);
         }
 

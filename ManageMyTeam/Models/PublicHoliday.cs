@@ -16,6 +16,10 @@ namespace ManageMyTeam.Models
         public DateTime PublicHolidayDate { get; set; }
 
 
+        public int SiteId { get; set; }
+        public Site Site { get; set; }
+
+
 
     }
 }

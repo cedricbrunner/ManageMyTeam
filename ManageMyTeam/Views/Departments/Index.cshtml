@@ -15,6 +15,9 @@
             <th>
                 Abteilung
             </th>
+            <th>
+                Standort
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -23,6 +26,9 @@
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.DepartmentName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Site.SiteLocation)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.DepartmentId">Edit</a> |

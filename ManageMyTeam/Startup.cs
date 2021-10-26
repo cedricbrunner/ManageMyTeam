@@ -29,10 +29,11 @@ namespace ManageMyTeam
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));      
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
+
             services.AddRazorPages().AddMvcOptions(options =>
              {
                  options.ModelBinderProviders.Insert(0, new WeekOfYearModelBinderProvider());
@@ -70,7 +71,7 @@ namespace ManageMyTeam
                 endpoints.MapRazorPages();
             });
 
-            //DatabaseInitializer.Initialize(app);
+            
         }
     }
 }

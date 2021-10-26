@@ -18,6 +18,9 @@
             <th>
                 Datum
             </th>
+            <th>
+                Standort
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -28,7 +31,10 @@
                 @Html.DisplayFor(modelItem => item.PublicHolidayTitle)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.PublicHolidayDate) 
+                @Html.DisplayFor(modelItem => item.PublicHolidayDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Site.SiteLocation)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.PublicHolidayId">Bearbeiten</a> |

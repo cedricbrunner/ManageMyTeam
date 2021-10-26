@@ -19,9 +19,10 @@ namespace ManageMyTeam.Data
         public DbSet<BaseLoad> Baseloads { get; set; }
         public DbSet<Project> Projects { get; set; }
         public DbSet<PublicHoliday> PublicHolidays { get; set; }
-        public DbSet<Evaluation> Evaluations { get; set; }
         public DbSet<RequirementHour> RequirementHours { get; set; }
         public DbSet<SchedulingHour> SchedulingHours { get; set; }
+        public DbSet<Site> Sites { get; set; }
+
 
 
 

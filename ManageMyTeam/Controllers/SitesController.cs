@@ -10,23 +10,22 @@ using ManageMyTeam.Models;
 
 namespace ManageMyTeam.Controllers
 {
-    public class PublicHolidaysController : Controller
+    public class SitesController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public PublicHolidaysController(ApplicationDbContext context)
+        public SitesController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: PublicHolidays
+        // GET: Sites
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.PublicHolidays.Include(b => b.Site);
-            return View(await applicationDbContext.ToListAsync());
+            return View(await _context.Sites.ToListAsync());
         }
 
-        // GET: PublicHolidays/Details/5
+        // GET: Sites/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -34,42 +33,39 @@ namespace ManageMyTeam.Controllers
                 return NotFound();
             }
 
-            var publicHoliday = await _context.PublicHolidays
-                .Include(b => b.Site)
-                .FirstOrDefaultAsync(m => m.PublicHolidayId == id);
-            if (publicHoliday == null)
+            var site = await _context.Sites
+                .FirstOrDefaultAsync(m => m.SiteId == id);
+            if (site == null)
             {
                 return NotFound();
             }
 
-            return View(publicHoliday);
+            return View(site);
         }
 
-        // GET: PublicHolidays/Create
+        // GET: Sites/Create
         public IActionResult Create()
         {
-            ViewData["SiteId"] = new SelectList(_context.Sites, "SiteId", "SiteLocation");
             return View();
         }
 
-        // POST: PublicHolidays/Create
+        // POST: Sites/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PublicHolidayId,PublicHolidayTitle,PublicHolidayDate,SiteId")] PublicHoliday publicHoliday)
+        public async Task<IActionResult> Create([Bind("SiteId,SiteLocation")] Site site)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(publicHoliday);
+                _context.Add(site);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["SiteId"] = new SelectList(_context.Sites, "SiteId", "Siteid", publicHoliday.SiteId);
-            return View(publicHoliday);
+            return View(site);
         }
 
-        // GET: PublicHolidays/Edit/5
+        // GET: Sites/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -77,23 +73,22 @@ namespace ManageMyTeam.Controllers
                 return NotFound();
             }
 
-            var publicHoliday = await _context.PublicHolidays.FindAsync(id);
-            if (publicHoliday == null)
+            var site = await _context.Sites.FindAsync(id);
+            if (site == null)
             {
                 return NotFound();
             }
-            ViewData["SiteId"] = new SelectList(_context.Sites, "SiteId", "SiteLocation", publicHoliday.SiteId);
-            return View(publicHoliday);
+            return View(site);
         }
 
-        // POST: PublicHolidays/Edit/5
+        // POST: Sites/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("PublicHolidayId,PublicHolidayTitle,PublicHolidayDate,SiteId")] PublicHoliday publicHoliday)
+        public async Task<IActionResult> Edit(int id, [Bind("SiteId,SiteLocation")] Site site)
         {
-            if (id != publicHoliday.PublicHolidayId)
+            if (id != site.SiteId)
             {
                 return NotFound();
             }
@@ -102,12 +97,12 @@ namespace ManageMyTeam.Controllers
             {
                 try
                 {
-                    _context.Update(publicHoliday);
+                    _context.Update(site);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!PublicHolidayExists(publicHoliday.PublicHolidayId))
+                    if (!SiteExists(site.SiteId))
                     {
                         return NotFound();
                     }
@@ -118,11 +113,10 @@ namespace ManageMyTeam.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["Siteid"] = new SelectList(_context.Sites, "SiteId", "SiteLocation", publicHoliday.SiteId);
-            return View(publicHoliday);
+            return View(site);
         }
 
-        // GET: PublicHolidays/Delete/5
+        // GET: Sites/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -130,31 +124,30 @@ namespace ManageMyTeam.Controllers
                 return NotFound();
             }
 
-            var publicHoliday = await _context.PublicHolidays
-                .Include(b => b.Site)
-                .FirstOrDefaultAsync(m => m.PublicHolidayId == id);
-            if (publicHoliday == null)
+            var site = await _context.Sites
+                .FirstOrDefaultAsync(m => m.SiteId == id);
+            if (site == null)
             {
                 return NotFound();
             }
 
-            return View(publicHoliday);
+            return View(site);
         }
 
-        // POST: PublicHolidays/Delete/5
+        // POST: Sites/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var publicHoliday = await _context.PublicHolidays.FindAsync(id);
-            _context.PublicHolidays.Remove(publicHoliday);
+            var site = await _context.Sites.FindAsync(id);
+            _context.Sites.Remove(site);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool PublicHolidayExists(int id)
+        private bool SiteExists(int id)
         {
-            return _context.PublicHolidays.Any(e => e.PublicHolidayId == id);
+            return _context.Sites.Any(e => e.SiteId == id);
         }
     }
 }

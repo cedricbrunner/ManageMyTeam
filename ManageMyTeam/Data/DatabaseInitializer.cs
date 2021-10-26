@@ -14,10 +14,37 @@ namespace ManageMyTeam.Data
             try
             {
                 context.Database.EnsureCreated();
+                Site site1 = new Site
+                {
+                    SiteLocation = "Bern"
+                };
+
+                // Abteilungen werden angelegt
+                if (!context.Sites.Any())
+                {
+                    var sites = new Site[]
+                    {
+                        site1,
+                        new Site { SiteLocation = "Broadmeadows"},
+                        new Site { SiteLocation = "Kankakee"},
+                        new Site { SiteLocation = "Marburg"},
+                        new Site { SiteLocation = "Wuhan"},
+                        new Site { SiteLocation = "Liverpool"},
+                        new Site { SiteLocation = "King of Prussia"},                      
+                };
+                    foreach (Site site in sites)
+                    {
+                        context.Sites.Add(site);
+                    }
+
+                }
+                context.SaveChanges();
+
+                context.Database.EnsureCreated();
                 Department dep1 = new Department
                 {
                    
-                    DepartmentName = "Project Management"
+                    DepartmentName = "Execution System Utilities and Building Management", Site = site1
                 };
 
                 // Abteilungen werden angelegt
@@ -27,14 +54,10 @@ namespace ManageMyTeam.Data
                     var departments = new Department[]
                     {
                         dep1,
-                        new Department {  
-                                            DepartmentName = "Execution System",},
-                        new Department { 
-                                            DepartmentName = "M2U" },
-                        new Department { 
-                                            DepartmentName = "Marketing & Sales" },
-                        new Department {  
-                                            DepartmentName = "Finance & Administration" },
+                        new Department { DepartmentName = "Execution System Bulk", Site = site1},
+                        new Department { DepartmentName =  "Execution System Fill Finish", Site = site1},
+                        new Department { DepartmentName = "Execution System Base Fractionation", Site = site1 },
+                        new Department { DepartmentName = "Execution System Packaging", Site = site1 },
 
                 };
                     foreach (Department department in departments)
@@ -60,11 +83,9 @@ namespace ManageMyTeam.Data
                     var functions = new Function[]
                     {
                     new Function { 
-                        FunctionTyp = "Chef de cuisine" },
-                    new Function { 
                         FunctionTyp = "Platform Owner" },
                     new Function { 
-                        FunctionTyp = "Tester" },
+                        FunctionTyp = "Manager" },
                     };
                     foreach (Function function in functions)
                     {
@@ -80,10 +101,10 @@ namespace ManageMyTeam.Data
                 {
                     var employees = new Employee[]
                     {
-                        new Employee {  EmployeeName = "Max",
+                        new Employee {  EmployeeName = "Cédric Brunner",
                                         
-                                        WorkID = 1000,
-                                        WorkLoad = 80,
+                                        WorkID = 35960,
+                                        WorkLoad = 90,
                                         Department = dep1,
                                         Function = func1
                         }

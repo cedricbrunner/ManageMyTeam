@@ -88,7 +88,7 @@ namespace ManageMyTeam.Helper
             }
 
             var absencesOfEmployee = _context.Absences.Where(absence => absence.EmployeeId == employeeId);
-            var publicHolidays = _context.PublicHolidays;
+            var publicHolidays = _context.PublicHolidays; //.Where(publicHolidays => publicHolidays.SiteId == siteId);
             var schedulingOfEmployee = _context.SchedulingHours.Where(SchedulingHour => SchedulingHour.EmployeeId == employeeId);
             var baseloadOfEmployee = _context.Baseloads.Where(BaseLoad => BaseLoad.EmployeeId == employeeId);
 
