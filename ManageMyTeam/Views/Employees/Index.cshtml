@@ -4,7 +4,7 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Übersicht</h1>
 
 <p>
     <a asp-action="Create">Mitarbeiter / Mitarbeiterin erfassen</a>
@@ -25,7 +25,7 @@
                 <a asp-action="Index" asp-route-sortOrder="@ViewData["FunctionSortParm"]">@Html.DisplayName("Funktion")</a>
             </th>
             <th>
-                <a asp-action="Index" asp-route-sortOrder="@ViewData["DepartmentSortParm"]">@Html.DisplayName("Abteilung")</a>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["DepartmentSortParm"]">@Html.DisplayName("Value Stream")</a>
             </th>
             <th></th>
         </tr>

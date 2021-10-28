@@ -25,6 +25,9 @@ namespace ManageMyTeam.Controllers
             return View(await _context.Projects.ToListAsync());
         }
 
+
+
+
         // GET: Projects/Details/5
         public async Task<IActionResult> Details(int? id)
         {

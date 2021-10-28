@@ -19,11 +19,38 @@ namespace ManageMyTeam.Controllers
             _context = context;
         }
 
-        // GET: Absences
+        /*// GET: Absences
         public async Task<IActionResult> Index()
         {
             var applicationDbContext = _context.Absences.Include(a => a.EmployeeName);
             return View(await applicationDbContext.ToListAsync());
+        }
+        */
+
+        public async Task<IActionResult> Index(string sortOrder)
+        {
+            ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewData["StartDateSortParm"] = sortOrder == "Date" ? "startdate_desc" : "Date";
+
+
+            var absences = from s in _context.Absences.Include(a => a.EmployeeName)
+                               select s;
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    absences = absences.OrderByDescending(s => s.EmployeeName);
+                    break;
+                case "Date":
+                    absences = absences.OrderBy(s => s.AbcenceStart);
+                    break;
+                case "startdate_desc":
+                    absences = absences.OrderByDescending(s => s.AbcenceStart);
+                    break;
+                default:
+                    absences = absences.OrderBy(s => s.EmployeeName);
+                    break;
+            }
+            return View(await absences.AsNoTracking().ToListAsync());
         }
 
 

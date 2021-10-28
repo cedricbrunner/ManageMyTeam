@@ -4,7 +4,7 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Übersicht</h1>
 
 <p>
     <a asp-action="Create">Neue Absenz erfassen</a>
@@ -13,16 +13,16 @@
     <thead>
         <tr>
             <th>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParm"]">@Html.DisplayName("Name Vorname")</a>
+            </th>
+            <th>
                 Grund
             </th>
             <th>
-                Von
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["StartDateSortParm"]">@Html.DisplayName("Von")</a>
             </th>
             <th>
                 Bis
-            </th>
-            <th>
-                Mitarbeiter
             </th>
             <th></th>
         </tr>
@@ -31,6 +31,9 @@
 @foreach (var item in Model) {
         <tr>
             <td>
+                @Html.DisplayFor(modelItem => item.EmployeeName.EmployeeName)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.AbcenceName)
             </td>
             <td>
@@ -38,9 +41,6 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.AbcenceEnd)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EmployeeName.EmployeeName)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.AbsenceId">Bearbeiten</a> |

@@ -1,13 +1,13 @@
 ﻿@model ManageMyTeam.Models.ReportDepartmentModel
 @{ ViewData["Title"] = "ReportDepartment"; }
 
-<h1>Report</h1>
+<h1>Auswertung Value Stream</h1>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Report">
             <div class="form-group">
-                <label>Depart</label>
+                <label>Value Stream</label>
                 <select asp-for="DepartmentId" class="form-control" asp-items="ViewBag.DepartmentId"></select>
             </div>
             <div class="form-group">
