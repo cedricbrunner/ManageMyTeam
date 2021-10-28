@@ -19,12 +19,36 @@ namespace ManageMyTeam.Controllers
             _context = context;
         }
 
-        // GET: BaseLoads
+        /*// GET: BaseLoads
         public async Task<IActionResult> Index()
         {
             var applicationDbContext = _context.Baseloads.Include(b => b.Employee);
             return View(await applicationDbContext.ToListAsync());
         }
+        */
+
+        public async Task<IActionResult> Index(string sortOrder)
+        {
+            ViewData["EmployeeSortParm"] = String.IsNullOrEmpty(sortOrder) ? "employee_desc" : "";
+            ViewData["BaseloadSortParm"] = String.IsNullOrEmpty(sortOrder) ? "base_desc" : "";
+
+
+            var employee = from s in _context.Baseloads.Include(b => b.Employee)select s;
+            switch (sortOrder)
+            {
+                case "employee_desc":
+                    employee = employee.OrderByDescending(s => s.Employee);
+                    break;
+                case "base_desc":
+                    employee = employee.OrderByDescending(s => s.BaseLoadTitle);
+                    break;
+                default:
+                    employee = employee.OrderBy(s => s.Employee);
+                    break;
+            }
+            return View(await employee.AsNoTracking().ToListAsync());
+        }
+
 
         // GET: BaseLoads/Details/5
         public async Task<IActionResult> Details(int? id)

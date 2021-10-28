@@ -4,7 +4,7 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Übersicht</h1>
 
 <p>
     <a asp-action="Create">Neue Grundlast erfassen</a>
@@ -13,13 +13,13 @@
     <thead>
         <tr>
             <th>
-                Grundlast
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["BaseloadSortParm"]">@Html.DisplayName("Grundlast")</a>
             </th>
             <th>
                 Stunden pro Woche
             </th>
             <th>
-                Mitarbeiter
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParm"]">@Html.DisplayName("Mitarbeiter")</a>
             </th>
             <th></th>
         </tr>

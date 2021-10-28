@@ -13,16 +13,16 @@
     <thead>
         <tr>
             <th>
-                Anforderung Stunden pro Woche
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["DateSortParm"]">@Html.DisplayName("Datum")</a>
             </th>
             <th>
-                Kalenderwoche
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["DepartmentSortParm"]">@Html.DisplayName("Abteilung")</a>
             </th>
             <th>
-                Projekt
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["ProjectSortParm"]">@Html.DisplayName("Projekt")</a>
             </th>
             <th>
-                Abteilung
+                Stunden pro Woche
             </th>
             <th></th>
         </tr>
@@ -31,16 +31,16 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.RequirementHourAmount)
+                @Html.DisplayFor(modelItem => item.RequirementHourDate)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.RequirementHourDate)
+                @Html.DisplayFor(modelItem => item.Department.DepartmentName)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Project.ProjectTitle)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Department.DepartmentName)
+                @Html.DisplayFor(modelItem => item.RequirementHourAmount)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.RequirementHourId">Bearbeiten</a> |

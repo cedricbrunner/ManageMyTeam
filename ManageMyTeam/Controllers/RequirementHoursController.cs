@@ -20,11 +20,43 @@ namespace ManageMyTeam.Controllers
         }
 
         // GET: RequirementHours
-        public async Task<IActionResult> Index()
+        /*public async Task<IActionResult> Index()
         {
             var applicationDbContext = _context.RequirementHours.Include(r => r.Department).Include(r => r.Project);
             return View(await applicationDbContext.ToListAsync());
+        }*/
+
+
+        public async Task<IActionResult> Index(string sortOrder)
+        {
+            ViewData["DepartmentSortParm"] = String.IsNullOrEmpty(sortOrder) ? "department_desc" : "";
+            ViewData["ProjectSortParm"] = String.IsNullOrEmpty(sortOrder) ? "Project_desc" : "";
+            ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
+
+            var requestHours = from s in _context.RequirementHours.Include(r => r.Department).Include(r => r.Project)
+                               select s;
+            switch (sortOrder)
+            {
+                case "department_desc":
+                    requestHours = requestHours.OrderByDescending(s => s.Department);
+                    break;
+                case "Project_desc":
+                    requestHours = requestHours.OrderByDescending(s => s.Project);
+                    break;
+                case "Date":
+                    requestHours = requestHours.OrderBy(s => s.RequirementHourDate);
+                    break;
+                case "date_desc":
+                    requestHours = requestHours.OrderByDescending(s => s.RequirementHourDate);
+                    break;
+                default:
+                    requestHours = requestHours.OrderBy(s => s.Department);
+                    break;
+            }
+            return View(await requestHours.AsNoTracking().ToListAsync());
         }
+
+
 
         // GET: RequirementHours/Details/5
         public async Task<IActionResult> Details(int? id)

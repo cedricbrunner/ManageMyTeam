@@ -19,11 +19,42 @@ namespace ManageMyTeam.Controllers
             _context = context;
         }
 
-        // GET: SchedulingHours
+        /*// GET: SchedulingHours
         public async Task<IActionResult> Index()
         {
             var applicationDbContext = _context.SchedulingHours.Include(s => s.Employee).Include(s => s.Project);
             return View(await applicationDbContext.ToListAsync());
+        }*/
+
+        
+
+        public async Task<IActionResult> Index(string sortOrder)
+        {
+            ViewData["EmployeeSortParm"] = String.IsNullOrEmpty(sortOrder) ? "employee_desc" : "";
+            ViewData["ProjectSortParm"] = String.IsNullOrEmpty(sortOrder) ? "Project_desc" : "";
+            ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
+            
+            var schedulingHours = from s in _context.SchedulingHours.Include(s => s.Employee).Include(s => s.Project)
+            select s;
+            switch (sortOrder)
+            {
+                case "employee_desc":
+                    schedulingHours = schedulingHours.OrderByDescending(s => s.Employee);
+                    break;
+                case "Project_desc":
+                    schedulingHours = schedulingHours.OrderByDescending(s => s.Project);
+                    break;
+                case "Date":
+                    schedulingHours = schedulingHours.OrderBy(s => s.SchedulingHourDate);
+                    break;
+                case "date_desc":
+                    schedulingHours = schedulingHours.OrderByDescending(s => s.SchedulingHourDate);
+                    break;
+                default:
+                    schedulingHours = schedulingHours.OrderBy(s => s.Employee);
+                    break;
+            }
+            return View(await schedulingHours.AsNoTracking().ToListAsync());
         }
 
         // GET: SchedulingHours/Details/5

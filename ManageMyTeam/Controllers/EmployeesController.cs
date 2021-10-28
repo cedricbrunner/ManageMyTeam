@@ -20,10 +20,36 @@ namespace ManageMyTeam.Controllers
         }
 
         // GET: Employees
-        public async Task<IActionResult> Index()
+       /* public async Task<IActionResult> Index()
         {
             var applicationDbContext = _context.Employees.Include(e => e.Department).Include(e => e.Function);
             return View(await applicationDbContext.ToListAsync());
+        }*/
+
+
+        public async Task<IActionResult> Index(string sortOrder)
+        {
+            ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "Name_desc" : "";
+            ViewData["FunctionSortParm"] = String.IsNullOrEmpty(sortOrder) ? "Function_desc" : "";
+            ViewData["DepartmentSortParm"] = String.IsNullOrEmpty(sortOrder) ? "Department_desc" : "";
+
+            var employee = from s in _context.Employees.Include(e => e.Department).Include(e => e.Function)select s;
+            switch (sortOrder)
+            {
+                case "Name_desc":
+                    employee = employee.OrderByDescending(s => s.EmployeeName);
+                    break;
+                case "Function_desc":
+                    employee = employee.OrderByDescending(s => s.Function);
+                    break;
+                case "Department_desc":
+                    employee = employee.OrderByDescending(s => s.Department);
+                    break;
+                default:
+                    employee = employee.OrderBy(s => s.EmployeeName);
+                    break;
+            }
+            return View(await employee.AsNoTracking().ToListAsync());
         }
 
         // GET: Employees/Details/5
