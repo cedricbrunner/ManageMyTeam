@@ -27,8 +27,6 @@ namespace ManageMyTeam.Controllers
 
         // GET: Employees
         // Sort
-
-
         public async Task<IActionResult> Index(string sortOrder)
         {
             ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "Name_desc" : "";
