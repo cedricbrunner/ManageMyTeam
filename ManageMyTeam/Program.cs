@@ -1,3 +1,11 @@
+/*
+ * Manage My Team
+ * Diplomarbeit Cédric Brunner 2021
+ * Techniker HF Informatik Applikation
+*/
+
+
+
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;

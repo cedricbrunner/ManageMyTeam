@@ -1,4 +1,10 @@
-﻿using System;
+﻿/*
+ * Controller Grundlast
+ * 10.2021 Cédric Brunner
+ * 
+ */
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -19,14 +25,8 @@ namespace ManageMyTeam.Controllers
             _context = context;
         }
 
-        /*// GET: BaseLoads
-        public async Task<IActionResult> Index()
-        {
-            var applicationDbContext = _context.Baseloads.Include(b => b.Employee);
-            return View(await applicationDbContext.ToListAsync());
-        }
-        */
-
+        // GET: BaseLoads
+        // Sort
         public async Task<IActionResult> Index(string sortOrder)
         {
             ViewData["EmployeeSortParm"] = String.IsNullOrEmpty(sortOrder) ? "employee_desc" : "";
@@ -77,8 +77,7 @@ namespace ManageMyTeam.Controllers
         }
 
         // POST: BaseLoads/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("BaseLoadId,BaseLoadTitle,BaseLoadAmount,EmployeeId")] BaseLoad baseLoad)
@@ -111,8 +110,7 @@ namespace ManageMyTeam.Controllers
         }
 
         // POST: BaseLoads/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("BaseLoadId,BaseLoadTitle,BaseLoadAmount,EmployeeId")] BaseLoad baseLoad)

@@ -1,3 +1,9 @@
+/*
+ * Manage My Team
+ * Diplomarbeit Cédric Brunner 2021
+ * Techniker HF Informatik Applikation
+*/
+
 using ManageMyTeam.Data;
 using ManageMyTeam.Models;
 using Microsoft.AspNetCore.Builder;

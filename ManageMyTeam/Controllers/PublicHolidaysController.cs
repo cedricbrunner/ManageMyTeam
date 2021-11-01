@@ -1,4 +1,10 @@
-﻿using System;
+﻿/*
+ * Controller Projekt
+ * 10.2021 Cédric Brunner
+ * 
+ */
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -53,8 +59,7 @@ namespace ManageMyTeam.Controllers
         }
 
         // POST: PublicHolidays/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("PublicHolidayId,PublicHolidayTitle,PublicHolidayDate,SiteId")] PublicHoliday publicHoliday)
@@ -87,8 +92,7 @@ namespace ManageMyTeam.Controllers
         }
 
         // POST: PublicHolidays/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("PublicHolidayId,PublicHolidayTitle,PublicHolidayDate,SiteId")] PublicHoliday publicHoliday)

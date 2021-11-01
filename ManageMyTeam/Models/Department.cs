@@ -1,4 +1,10 @@
-﻿using System;
+﻿/*
+ * Klasse Abteilung / Value Stream
+ * 10.2021 Cédric Brunner
+ * 
+ */
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;

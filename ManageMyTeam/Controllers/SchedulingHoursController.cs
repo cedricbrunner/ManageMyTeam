@@ -1,4 +1,12 @@
-﻿using System;
+﻿
+
+/*
+ * Controller Einplanung
+ * 10.2021 Cédric Brunner
+ * 
+ */
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -19,14 +27,10 @@ namespace ManageMyTeam.Controllers
             _context = context;
         }
 
-        /*// GET: SchedulingHours
-        public async Task<IActionResult> Index()
-        {
-            var applicationDbContext = _context.SchedulingHours.Include(s => s.Employee).Include(s => s.Project);
-            return View(await applicationDbContext.ToListAsync());
-        }*/
 
-        
+
+        /// GET: SchedulingHours
+        /// Sort
 
         public async Task<IActionResult> Index(string sortOrder)
         {
@@ -86,8 +90,7 @@ namespace ManageMyTeam.Controllers
         }
 
         // POST: SchedulingHours/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("SchedulingHourId,SchedulingHourAmount,SchedulingHourDate,ProjectId,EmployeeId")] SchedulingHour schedulingHour)
@@ -122,8 +125,7 @@ namespace ManageMyTeam.Controllers
         }
 
         // POST: SchedulingHours/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("SchedulingHourId,SchedulingHourAmount,SchedulingHourDate,ProjectId,EmployeeId")] SchedulingHour schedulingHour)

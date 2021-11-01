@@ -1,4 +1,11 @@
-﻿using System;
+﻿/*
+ * Conreoller Absenzen
+ * 10.2021 Cédric Brunner
+ * 
+ */
+
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -19,13 +26,8 @@ namespace ManageMyTeam.Controllers
             _context = context;
         }
 
-        /*// GET: Absences
-        public async Task<IActionResult> Index()
-        {
-            var applicationDbContext = _context.Absences.Include(a => a.EmployeeName);
-            return View(await applicationDbContext.ToListAsync());
-        }
-        */
+        // GET: Absences
+        // Sort
 
         public async Task<IActionResult> Index(string sortOrder)
         {
@@ -81,8 +83,7 @@ namespace ManageMyTeam.Controllers
         }
 
         // POST: Absences/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("AbsenceId,AbcenceName,AbcenceStart,AbcenceEnd,EmployeeId")] Absence absence)

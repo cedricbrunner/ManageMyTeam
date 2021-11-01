@@ -1,4 +1,11 @@
-﻿using System;
+﻿
+/*
+ * Controller Anforderung
+ * 10.2021 Cédric Brunner
+ * 
+ */
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -20,11 +27,7 @@ namespace ManageMyTeam.Controllers
         }
 
         // GET: RequirementHours
-        /*public async Task<IActionResult> Index()
-        {
-            var applicationDbContext = _context.RequirementHours.Include(r => r.Department).Include(r => r.Project);
-            return View(await applicationDbContext.ToListAsync());
-        }*/
+        // Sort
 
 
         public async Task<IActionResult> Index(string sortOrder)
@@ -87,8 +90,7 @@ namespace ManageMyTeam.Controllers
         }
 
         // POST: RequirementHours/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("RequirementHourId,RequirementHourAmount,RequirementHourDate,ProjectId,DepartmentId")] RequirementHour requirementHour)
@@ -123,8 +125,7 @@ namespace ManageMyTeam.Controllers
         }
 
         // POST: RequirementHours/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("RequirementHourId,RequirementHourAmount,RequirementHourDate,ProjectId,DepartmentId")] RequirementHour requirementHour)

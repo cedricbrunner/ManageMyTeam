@@ -1,4 +1,10 @@
-﻿using System;
+﻿/*
+ * Controller Mitarbeiter
+ * 10.2021 Cédric Brunner
+ * 
+ */
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -20,11 +26,7 @@ namespace ManageMyTeam.Controllers
         }
 
         // GET: Employees
-       /* public async Task<IActionResult> Index()
-        {
-            var applicationDbContext = _context.Employees.Include(e => e.Department).Include(e => e.Function);
-            return View(await applicationDbContext.ToListAsync());
-        }*/
+        // Sort
 
 
         public async Task<IActionResult> Index(string sortOrder)
@@ -81,8 +83,7 @@ namespace ManageMyTeam.Controllers
         }
 
         // POST: Employees/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("EmployeeId,EmployeeName,WorkID,WorkLoad,FunctionId,DepartmentId")] Employee employee)
@@ -117,8 +118,7 @@ namespace ManageMyTeam.Controllers
         }
 
         // POST: Employees/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("EmployeeId,EmployeeName,WorkID,WorkLoad,FunctionId,DepartmentId")] Employee employee)
